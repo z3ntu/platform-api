@@ -53,29 +53,6 @@ LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/android/include
 
 LOCAL_SRC_FILES:= \
-	test.cpp \
-
-LOCAL_MODULE:= direct_ubuntu_application_api_for_hybris_test
-LOCAL_MODULE_TAGS := optional
-
-LOCAL_SHARED_LIBRARIES := \
-	libandroidfw \
-	libutils \
-	libEGL \
-	libGLESv2 \
-	libubuntu_application_api
-
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS += -std=gnu++0x
-
-LOCAL_C_INCLUDES := \
-	$(UPAPI_PATH)/include \
-	$(UPAPI_PATH)/android/include
-
-LOCAL_SRC_FILES:= \
 	test_c_api.cpp \
 
 LOCAL_MODULE:= direct_ubuntu_application_c_api_for_hybris_test
@@ -197,71 +174,6 @@ LOCAL_MODULE:= direct_ubuntu_application_sensors_for_hybris_test
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SHARED_LIBRARIES := \
-	libandroidfw \
-	libutils \
-	libEGL \
-	libGLESv2 \
-	libubuntu_application_api
-
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS += \
-	-DANDROID_VERSION_MAJOR=$(ANDROID_VERSION_MAJOR) \
-	-DANDROID_VERSION_MINOR=$(ANDROID_VERSION_MINOR) \
-	-DANDROID_VERSION_PATCH=$(ANDROID_VERSION_PATCH)
-
-LOCAL_CFLAGS += -std=gnu++0x
-
-LOCAL_C_INCLUDES := \
-	external/skia/include/core \
-	frameworks/base/services \
-	$(UPAPI_PATH)/include \
-	$(UPAPI_PATH)/android/include
-
-LOCAL_SRC_FILES:= \
-	application_manager.cpp \
-	default_application_manager.cpp \
-
-LOCAL_MODULE:= ubuntuappmanager
-LOCAL_MODULE_TAGS := optional
-
-LOCAL_SHARED_LIBRARIES := \
-	libbinder \
-	libinput \
-	liblog \
-	libgui \
-	libskia \
-	libandroidfw \
-	libutils \
-	libEGL \
-	libGLESv2 \
-	libubuntu_application_api
-
-ifeq ($(HAS_LIBINPUTSERVICE),true)
-LOCAL_SHARED_LIBRARIES += libinputservice
-endif
-
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-
-LOCAL_CFLAGS += -std=gnu++0x
-
-LOCAL_C_INCLUDES := \
-	$(UPAPI_PATH)/include \
-	$(UPAPI_PATH)/android/include
-
-LOCAL_SRC_FILES:= \
-	application_manager.cpp \
-	default_application_manager_test.cpp \
-
-LOCAL_MODULE:= ubuntuappmanager_test
-LOCAL_MODULE_TAGS := optional
-
-LOCAL_SHARED_LIBRARIES := \
-	libbinder \
 	libandroidfw \
 	libutils \
 	libEGL \
