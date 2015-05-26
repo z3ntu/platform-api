@@ -22,12 +22,10 @@ LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/android/include
 
 LOCAL_SRC_FILES := \
-	ubuntu_application_api_for_hybris.cpp \
 	ubuntu_application_gps_for_hybris.cpp \
 	ubuntu_application_sensors_for_hybris.cpp \
-	../default/default_ubuntu_application_sensor.cpp \
-	../default/default_ubuntu_ui.cpp \
-	application_manager.cpp
+	../default/default_ubuntu_application_sensor.cpp
+
 
 LOCAL_MODULE := libubuntu_application_api
 LOCAL_MODULE_TAGS := optional
