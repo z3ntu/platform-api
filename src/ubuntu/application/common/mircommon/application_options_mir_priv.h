@@ -20,7 +20,6 @@
 #define UBUNTU_APPLICATION_OPTIONS_MIR_PRIV_H_
 
 #include <ubuntu/application/options.h>
-#include <ubuntu/application/ui/options.h>
 
 #include <string>
 
@@ -41,8 +40,6 @@ public:
     static Options* from_u_application_options(UApplicationOptions* u_options);
 
     UApplicationOperationMode operation_mode = U_APPLICATION_FOREGROUND_APP;
-    UAUiFormFactor form_factor = U_DESKTOP;
-    UAUiStage stage = U_MAIN_STAGE;
     
     std::string desktop_file;
 

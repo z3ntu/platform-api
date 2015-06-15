@@ -17,11 +17,10 @@
  */
 
 #include <ubuntu/application/lifecycle_delegate.h>
-#include <ubuntu/application/ui/window.h>
-#include <ubuntu/application/ui/options.h>
-#include <ubuntu/application/ui/session.h>
-#include <ubuntu/application/ui/clipboard.h>
-#include <ubuntu/application/ui/display.h>
+#include <ubuntu/application/id.h>
+#include <ubuntu/application/description.h>
+#include <ubuntu/application/instance.h>
+#include <ubuntu/application/options.h>
 #include <ubuntu/application/sensors/haptic.h>
 
 #include <ubuntu/application/location/service.h>
@@ -40,25 +39,6 @@ void u_application_init(void*)
 
 void u_application_finish()
 {
-}
-
-// Session helpers
-UAUiSessionProperties* ua_ui_session_properties_new()
-{
-    return NULL;
-}
-
-void ua_ui_session_properties_set_type(UAUiSessionProperties*, UAUiSessionType)
-{
-}
-
-void ua_ui_session_properties_set_remote_pid(UAUiSessionProperties*, uint32_t)
-{
-}
-
-UAUiSession* ua_ui_session_new_with_properties(UAUiSessionProperties*)
-{
-    return NULL;
 }
 
 // Lifecycle helpers
@@ -131,150 +111,13 @@ void u_application_options_destroy(UApplicationOptions*)
 {
 }
 
-UAUiFormFactor u_application_options_get_form_factor(UApplicationOptions*)
-{
-    return U_DESKTOP;
-}
-
-UAUiStage u_application_options_get_stage(UApplicationOptions*)
-{
-    return U_MAIN_STAGE;
-}
-
 // UApplicationInstance
 UApplicationInstance* u_application_instance_new_from_description_with_options(UApplicationDescription*, UApplicationOptions*)
 {
     return NULL;
 }
 
-// Application Ui Helpers
-
-// Clipboard
-void ua_ui_set_clipboard_content(void*, size_t)
-{
-}
-
-void ua_ui_get_clipboard_content(void**, size_t*)
-{
-}
-
-// UAUiDisplay
-UAUiDisplay* ua_ui_display_new_with_index(size_t)
-{
-    return NULL;
-}
-
-void ua_ui_display_destroy(UAUiDisplay*)
-{
-}
-
-uint32_t ua_ui_display_query_horizontal_res(UAUiDisplay*)
-{
-    return 0;
-}
-
-uint32_t ua_ui_display_query_vertical_res(UAUiDisplay*)
-{
-    return 0;
-}
-
-EGLNativeDisplayType ua_ui_display_get_native_type(UAUiDisplay*)
-{
-    return 0;
-}
-
-// UAUiWindowProperties
-UAUiWindowProperties* ua_ui_window_properties_new_for_normal_window()
-{
-    return NULL;
-}
-
-void ua_ui_window_properties_destroy(UAUiWindowProperties*)
-{
-}
-
-void ua_ui_window_properties_set_titlen(UAUiWindowProperties*, const char*, size_t)
-{
-}
-
-const char* ua_ui_window_properties_get_title(UAUiWindowProperties*)
-{
-    return "INVALID";
-}
-
-void ua_ui_window_properties_set_role(UAUiWindowProperties*, UAUiWindowRole)
-{
-}
-
-void ua_ui_window_properties_set_input_cb_and_ctx(UAUiWindowProperties*, UAUiWindowInputEventCb, void*)
-{
-}
-
-void ua_ui_window_properties_set_event_cb_and_ctx(UAUiWindowProperties*, UAUiWindowEventCb, void*)
-{
-}
-
-void ua_ui_window_properties_set_dimensions(UAUiWindowProperties*, uint32_t, uint32_t)
-{
-}
-
-// UAUiWindow
-UAUiWindow* ua_ui_window_new_for_application_with_properties(UApplicationInstance*, UAUiWindowProperties*)
-{
-    return NULL;
-}
-
-void ua_ui_window_destroy(UAUiWindow*)
-{
-}
-
-void ua_ui_window_get_size(UAUiWindow*, uint32_t*, uint32_t*)
-{
-}
-
-UStatus ua_ui_window_move(UAUiWindow*, uint32_t, uint32_t)
-{
-    return U_STATUS_ERROR;
-}
-
-UStatus ua_ui_window_resize(UAUiWindow*, uint32_t, uint32_t)
-{
-    return U_STATUS_ERROR;
-}
-
-UStatus ua_ui_window_hide(UAUiWindow*)
-{
-    return U_STATUS_ERROR;
-}
-
-int ua_ui_window_is_focused(UAUiWindow *window)
-{
-    return 0;
-}
-
-UApplicationUiWindowOrientation ua_ui_window_get_orientation(UAUiWindow*)
-{
-    return U_ORIENTATION_NORMAL;
-}
-
-UStatus ua_ui_window_show(UAUiWindow*)
-{
-    return U_STATUS_ERROR;
-}
-
-void ua_ui_window_request_fullscreen(UAUiWindow*)
-{
-}
-
-void ua_ui_window_request_state(UAUiWindow *, UApplicationUiWindowState)
-{
-}
-
-EGLNativeWindowType ua_ui_window_get_native_type(UAUiWindow*)
-{
-    return NULL;
-}
-
+// Sensors
 UASensorsHaptic* ua_sensors_haptic_new()
 {
     return NULL;
