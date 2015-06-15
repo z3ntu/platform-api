@@ -18,12 +18,11 @@
  */
 
 // C APIs
+#include <ubuntu/application/id.h>
+#include <ubuntu/application/description.h>
+#include <ubuntu/application/instance.h>
+#include <ubuntu/application/options.h>
 #include <ubuntu/application/lifecycle_delegate.h>
-#include <ubuntu/application/ui/window.h>
-#include <ubuntu/application/ui/options.h>
-#include <ubuntu/application/ui/session.h>
-#include <ubuntu/application/ui/clipboard.h>
-#include <ubuntu/application/ui/display.h>
 #include <ubuntu/application/sensors/accelerometer.h>
 #include <ubuntu/application/sensors/proximity.h>
 #include <ubuntu/application/sensors/light.h>
@@ -50,12 +49,6 @@ IMPLEMENT_VOID_FUNCTION3(init, u_application_module_version, uint32_t*, uint32_t
 IMPLEMENT_VOID_FUNCTION1(init, u_application_init, void*);
 IMPLEMENT_VOID_FUNCTION0(init, u_application_finish);
 
-// Session helpers
-IMPLEMENT_FUNCTION0(session, UAUiSessionProperties*, ua_ui_session_properties_new);
-IMPLEMENT_VOID_FUNCTION2(session, ua_ui_session_properties_set_type, UAUiSessionProperties*, UAUiSessionType);
-IMPLEMENT_VOID_FUNCTION2(session, ua_ui_session_properties_set_remote_pid, UAUiSessionProperties*, uint32_t);
-IMPLEMENT_FUNCTION1(session, UAUiSession*, ua_ui_session_new_with_properties, UAUiSessionProperties*);
-
 // Lifecycle helpers
 IMPLEMENT_FUNCTION0(lifecycle, UApplicationLifecycleDelegate*, u_application_lifecycle_delegate_new);
 IMPLEMENT_VOID_FUNCTION2(lifecycle, u_application_lifecycle_delegate_set_context, UApplicationLifecycleDelegate*, void*);
@@ -80,8 +73,6 @@ IMPLEMENT_VOID_FUNCTION2(instance, u_application_description_set_application_lif
 // UApplicationOptions
 IMPLEMENT_FUNCTION2(instance, UApplicationOptions*, u_application_options_new_from_cmd_line, int, char**);
 IMPLEMENT_VOID_FUNCTION1(instance, u_application_options_destroy, UApplicationOptions*);
-IMPLEMENT_FUNCTION1(instance, UAUiFormFactor, u_application_options_get_form_factor, UApplicationOptions*);
-IMPLEMENT_FUNCTION1(instance, UAUiStage, u_application_options_get_stage, UApplicationOptions*);
 
 // UApplicationInstance
 IMPLEMENT_FUNCTION2(instance, UApplicationInstance*, u_application_instance_new_from_description_with_options, UApplicationDescription*, UApplicationOptions*);
