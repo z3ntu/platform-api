@@ -13,7 +13,6 @@ target_link_libraries(
 
   "-Wl,--whole-archive"
   ubuntu_application_api_mirclient
-  ubuntu_application_api_mircommon
   ${UBUNTU_APPLICATION_API_LINK_LIBRARIES}
   "-Wl,--no-whole-archive"
   #TODO: Alarms

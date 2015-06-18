@@ -17,8 +17,8 @@
  */
 
 #include "application_instance_mirclient_priv.h"
-#include "mircommon/lifecycle_delegate_mir_priv.h"
-#include "mircommon/application_id_mir_priv.h"
+#include "lifecycle_delegate_mir_priv.h"
+#include "application_id_mir_priv.h"
 
 #include <ubuntu/application/lifecycle_delegate.h>
 #include <ubuntu/application/sensors/accelerometer.h>
