@@ -20,9 +20,7 @@ The overall source tree is split up into roughly two parts:
   * include/
     * ubuntu/
       * application/
-        * ui/
         * sensors/
-      * ui/
   * android/
 
 where include contains all of the public types, functions and
@@ -33,7 +31,4 @@ generic C++ API. For developers, only the include/ folder and its
 subdirectories are of interest.
 
 Within the include/ folder, only the ubuntu/application/ subfolder is
-meant for public consumption. Please note that all the interfaces
-defined in ubuntu/ui are considered private at this point and are
-likely to see significant changes or might completely go away without
-prior notice.
+meant for public consumption.
