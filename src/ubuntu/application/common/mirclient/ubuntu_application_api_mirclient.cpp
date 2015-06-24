@@ -74,12 +74,9 @@ void u_application_finish()
 {
 }
 
-// TODO<papi>: Eliminate global instance by adding Instance to some functions (i.e. display queries)
-// TODO: We can't take ownership of description and options until we get rid of the global instance
-// so we leak them.
 UApplicationInstance* u_application_instance_new_from_description_with_options(UApplicationDescription* description, UApplicationOptions* options)
 {
-    auto instance = global_mir_instance();
+    auto instance = new uamc::Instance();
 
     auto id = uam::Id::from_u_application_id(u_application_description_get_application_id(description));
     auto connect_succeeded = instance->connect(id->name);
