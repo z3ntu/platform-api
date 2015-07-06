@@ -176,8 +176,8 @@ Description: test implementation of the Platform API
 
 Package: ubuntu-application-api3-examples
 Architecture: any
-Replaces: libplatform-api1-hybris-tests (<< 3.0.0)
-Breaks: libplatform-api1-hybris-tests (<< 3.0.0)
+Replaces: ubuntu-application-api2-examples (<< 3.0.0)
+Breaks: ubuntu-application-api2-examples (<< 3.0.0)
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          ubuntu-application-api3-test,
