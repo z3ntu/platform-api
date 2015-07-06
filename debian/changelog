@@ -1,9 +1,17 @@
-platform-api (3.0.0) UNRELEASED; urgency=medium
+platform-api (3.0.0+15.10.20150706-0ubuntu1) wily; urgency=medium
 
+  [ Robert Carr ]
   * Remove deprecated ua_ui_* functions.
   * Remove mirserver backend
 
- -- Robert Carr <robert.carr@canonical.com>  Wed, 25 Mar 2015 16:00:34 -0700
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Steve Langasek ]
+  * Fix pkg-config to declare the dependency on mirclient headers. (LP:
+    #1465958)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 06 Jul 2015 17:53:08 +0000
 
 platform-api (2.9.0+15.04.20150326-0ubuntu1) vivid; urgency=medium
 
