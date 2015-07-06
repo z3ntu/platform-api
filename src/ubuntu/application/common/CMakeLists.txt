@@ -3,6 +3,4 @@ include_directories(
 )
 
 add_subdirectory(application)
-add_subdirectory(mircommon)
 add_subdirectory(mirclient)
-add_subdirectory(mirserver)

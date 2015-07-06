@@ -1,6 +1,7 @@
 platform-api (3.0.0) UNRELEASED; urgency=medium
 
   * Remove deprecated ua_ui_* functions.
+  * Remove mirserver backend
 
  -- Robert Carr <robert.carr@canonical.com>  Wed, 25 Mar 2015 16:00:34 -0700
 
