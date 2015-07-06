@@ -12,4 +12,3 @@ install(
 
 add_subdirectory(application)
 add_subdirectory(hardware)
-add_subdirectory(ui)
