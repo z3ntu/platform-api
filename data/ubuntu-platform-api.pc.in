@@ -8,3 +8,4 @@ Description: Ubuntu's platform abstraction layer.
 Version: @UBUNTU_PLATFORM_API_VERSION_MAJOR@.@UBUNTU_PLATFORM_API_VERSION_MINOR@.@UBUNTU_PLATFORM_API_VERSION_PATCH@
 Libs: -L${libdir} -lubuntu_application_api
 Cflags: -I${includedir}/ubuntu
+Requires.private: mirclient
