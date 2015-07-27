@@ -7,10 +7,6 @@ Build-Depends: android-headers,
                debhelper (>= 9),
                doxygen,
                graphviz,
-# We rely on C++11 features, and to prevent from ABI breaks
-# in libstdc++ causing us issues, we explicitly select a G++
-# version.
-               g++-4.9,
                libgles2-mesa-dev,
                libhybris-common-dev,
                pkg-config,
