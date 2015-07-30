@@ -1,4 +1,4 @@
-platform-api (3.0.0+15.10.20150727-0ubuntu2) wily; urgency=medium
+platform-api (3.0.0+15.10.20150730-0ubuntu2) wily; urgency=medium
 
   * Fix LP:#1478845.
 
