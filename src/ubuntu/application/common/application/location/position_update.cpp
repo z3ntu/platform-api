@@ -65,7 +65,7 @@ bool
 ua_location_position_update_has_altitude(
     UALocationPositionUpdate *update)
 {
-    return update->update.value.altitude;
+    return update->update.value.altitude ? true : false;
 }
 
 double
@@ -79,7 +79,7 @@ bool
 ua_location_position_update_has_horizontal_accuracy(
     UALocationPositionUpdate *update)
 {
-    return update->update.value.accuracy.horizontal;
+    return update->update.value.accuracy.horizontal ? true : false;
 }
 
 double
@@ -93,7 +93,7 @@ bool
 ua_location_position_update_has_vertical_accuracy(
     UALocationPositionUpdate *update)
 {
-    return update->update.value.accuracy.vertical;
+    return update->update.value.accuracy.vertical ? true : false;
 }
 
 double

@@ -29,7 +29,7 @@ namespace sensors
 
 struct USensorD
 {
-    static std::string& name()
+    static const std::string& name()
     {
         static std::string s = "com.canonical.usensord";
         return s;
@@ -37,7 +37,7 @@ struct USensorD
 
     struct Haptic
     {
-        static std::string name()
+        static const std::string& name()
         {
             static std::string s = "com.canonical.usensord.haptic";
             return s;
@@ -45,7 +45,7 @@ struct USensorD
     
         struct Vibrate
         {
-            static std::string name()
+            static const std::string& name()
             {
                 static std::string s = "Vibrate";
                 return s;
@@ -60,7 +60,7 @@ struct USensorD
     
         struct VibratePattern
         {
-            static std::string name()
+            static const std::string& name()
             {
                 static std::string s = "VibratePattern";
                 return s;
