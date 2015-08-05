@@ -1,3 +1,9 @@
+platform-api (3.0.0+15.10.20150805-0ubuntu1) wily; urgency=medium
+
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 05 Aug 2015 10:50:34 +0000
+
 platform-api (3.0.0+15.10.20150730-0ubuntu2) wily; urgency=medium
 
   * Fix LP:#1478845.
