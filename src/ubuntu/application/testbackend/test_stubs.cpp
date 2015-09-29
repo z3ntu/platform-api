@@ -123,6 +123,11 @@ UASensorsHaptic* ua_sensors_haptic_new()
     return NULL;
 }
 
+// Sensors
+void ua_sensors_haptic_destroy(UASensorsHaptic*)
+{
+}
+
 UStatus ua_sensors_haptic_enable(UASensorsHaptic*)
 {
     return U_STATUS_ERROR;
