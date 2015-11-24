@@ -1,3 +1,9 @@
+platform-api (3.0.0+16.04.20151124.1-0ubuntu1) xenial; urgency=medium
+
+  * Revert location-service build-dep to enable dual landings.
+
+ -- Thomas Voß <ci-train-bot@canonical.com>  Tue, 24 Nov 2015 12:24:52 +0000
+
 platform-api (3.0.0+15.10.20150805-0ubuntu1) wily; urgency=medium
 
   * New rebuild forced.
