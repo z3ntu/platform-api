@@ -35,12 +35,22 @@ extern "C" {
     typedef void UASensorsHaptic;
 
     /**
-     * \brief Create a new object for accessing the haptics device.
+     * \brief Create a new object for accessing the haptics device. Ownership is transfered to caller.
      * \ingroup sensor_access
+     * \sa ua_sensors_haptic_destroy
      * \returns A new instance or NULL in case of errors.
      */
     UBUNTU_DLL_PUBLIC UASensorsHaptic*
     ua_sensors_haptic_new();
+
+    /**
+     * \brief Destroys the given sensor instance and releases all resources held by the instance.
+     * \ingroup sensor_access
+     * \param[in] sensor The instance to be destroyed.
+     * \post All resources held by the instance are released. The result of any operation invoked on the destroyed instance are undefined.
+     */
+    UBUNTU_DLL_PUBLIC void
+    ua_sensors_haptic_destroy(UASensorsHaptic* sensor);
 
     /**
      * \brief Enables the supplied haptics device.

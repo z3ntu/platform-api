@@ -22,22 +22,6 @@
 
 #include <stdlib.h>
 
-template<typename T>
-struct Holder
-{
-    Holder(const T&value = T()) : value(value)
-    {
-    }
-
-    T value;
-};
-
-template<typename T>
-Holder<T>* make_holder(const T& value)
-{
-    return new Holder<T>(value);
-}
-
 namespace dbus = core::dbus;
 namespace uas = ubuntu::application::sensors;
 
@@ -50,18 +34,25 @@ ua_sensors_haptic_new()
     auto stub_service = dbus::Service::use_service(bus, dbus::traits::Service<uas::USensorD>::interface_name());
     auto stub = stub_service->object_for_path(dbus::types::ObjectPath("/com/canonical/usensord/haptic"));
 
-    auto holder = make_holder(new UbuntuApplicationSensorsHaptic(stub));
-    holder->value->bus_thread = std::thread{[bus](){ bus->run(); }};
-    holder->value->bus = bus;
+    auto s = new UbuntuApplicationSensorsHaptic(stub);
+    s->bus_thread = std::thread{[bus](){ bus->run(); }};
+    s->bus = bus;
 
-    return make_holder(new UbuntuApplicationSensorsHaptic(stub));
+    return s;
+}
+
+void
+ua_sensors_haptic_destroy(UASensorsHaptic* sensor)
+{
+    auto s = static_cast<UbuntuApplicationSensorsHaptic*>(sensor);
+    delete s;
 }
 
 UStatus
 ua_sensors_haptic_enable(UASensorsHaptic* sensor)
 {
-    auto s = static_cast<Holder<UbuntuApplicationSensorsHaptic*>*>(sensor);
-    s->value->enabled = true;
+    auto s = static_cast<UbuntuApplicationSensorsHaptic*>(sensor);
+    s->enabled = true;
 
     return U_STATUS_SUCCESS;
 }
@@ -69,8 +60,8 @@ ua_sensors_haptic_enable(UASensorsHaptic* sensor)
 UStatus
 ua_sensors_haptic_disable(UASensorsHaptic* sensor)
 {
-    auto s = static_cast<Holder<UbuntuApplicationSensorsHaptic*>*>(sensor);
-    s->value->enabled = false;
+    auto s = static_cast<UbuntuApplicationSensorsHaptic*>(sensor);
+    s->enabled = false;
 
     return U_STATUS_SUCCESS;
 }
@@ -83,14 +74,14 @@ ua_sensors_haptic_vibrate_once(
     if (sensor == nullptr)
         return U_STATUS_ERROR;
 
-    auto s = static_cast<Holder<UbuntuApplicationSensorsHaptic*>*>(sensor);
+    auto s = static_cast<UbuntuApplicationSensorsHaptic*>(sensor);
 
-    if (s->value->enabled == false)
+    if (s->enabled == false)
         return U_STATUS_ERROR;
 
     try
     {
-        s->value->session->invoke_method_synchronously<uas::USensorD::Haptic::Vibrate, void>(duration);
+        s->session->invoke_method_synchronously<uas::USensorD::Haptic::Vibrate, void>(duration);
     }
     catch (const std::runtime_error& e)
     {
@@ -110,16 +101,16 @@ ua_sensors_haptic_vibrate_with_pattern(
     if (sensor == nullptr)
         return U_STATUS_ERROR;
 
-    auto s = static_cast<Holder<UbuntuApplicationSensorsHaptic*>*>(sensor);
+    auto s = static_cast<UbuntuApplicationSensorsHaptic*>(sensor);
 
-    if (s->value->enabled == false)
+    if (s->enabled == false)
         return U_STATUS_ERROR;
 
     std::vector<uint32_t> p_arg (pattern, pattern + MAX_PATTERN_SIZE);
 
     try
     {
-        s->value->session->invoke_method_synchronously<uas::USensorD::Haptic::VibratePattern, void>(p_arg, repeat);
+        s->session->invoke_method_synchronously<uas::USensorD::Haptic::VibratePattern, void>(p_arg, repeat);
     }
     catch (const std::runtime_error& e)
     {

@@ -32,6 +32,7 @@
 #include <ubuntu/application/sensors/event/proximity.h>
 #include <ubuntu/application/sensors/light.h>
 #include <ubuntu/application/sensors/event/light.h>
+#include <ubuntu/application/sensors/haptic.h>
 
 using namespace std;
 
@@ -110,5 +111,27 @@ TESTP_F(DefaultBackendTest, CreateLight, {
         ua_sensors_light_disable(s);
     } else {
         cerr << "no light sensor on this hardware\n";
+    }
+})
+
+
+TESTP_F(DefaultBackendTest, CreateHaptic, {
+    // this can succeed or fail depending on whether the hardware we run this
+    // on actually exists; but it should never crash
+    UASensorsHaptic *s = ua_sensors_haptic_new();
+    if (s != NULL) {
+        cerr << "haptic sensor present on this hardware\n";
+        // calling its functions should not crash; we can't assert much about
+        // their actual values, though
+        ua_sensors_haptic_enable(s);
+        UStatus res = ua_sensors_haptic_vibrate_once(s, 10);
+
+        EXPECT_EQ(U_STATUS_SUCCESS, res);
+
+        ua_sensors_haptic_disable(s);
+        // caller must delete the object
+        ua_sensors_haptic_destroy(s);
+    } else {
+        cerr << "no haptic sensor on this hardware\n";
     }
 })
