@@ -1,8 +1,14 @@
-platform-api (3.0.1) UNRELEASED; urgency=medium
+platform-api (3.0.1+16.04.20151127-0ubuntu1) xenial; urgency=medium
 
+  [ Nick Dedekind ]
   * Added api for destroying haptics sensor instance (LP:#1351109)
 
- -- Nick Dedekind <nick.dedekind@canonical.com>  Tue, 29 Sep 2015 13:20:00 +0100
+  [ CI Train Bot ]
+  * debian/libubuntu-application-api3.symbols: update to released
+    version.
+  * No-change rebuild.
+
+ -- Gerry Boland <ci-train-bot@canonical.com>  Fri, 27 Nov 2015 19:02:31 +0000
 
 platform-api (3.0.0+16.04.20151124.1-0ubuntu1) xenial; urgency=medium
 

@@ -71,7 +71,7 @@ libubuntu_application_api.so.3 libubuntu-application-api3 #MINVER#
  ua_sensors_accelerometer_new@Base 0.18.1daily13.06.21
  ua_sensors_accelerometer_set_event_rate@Base 2.1.0+14.10.20140623.1
  ua_sensors_accelerometer_set_reading_cb@Base 0.18.1daily13.06.21
- ua_sensors_haptic_destroy@Base 0replaceme
+ ua_sensors_haptic_destroy@Base 3.0.1+16.04.20151127
  ua_sensors_haptic_disable@Base 2.0.0+14.10.20140612
  ua_sensors_haptic_enable@Base 2.0.0+14.10.20140612
  ua_sensors_haptic_new@Base 2.0.0+14.10.20140612
