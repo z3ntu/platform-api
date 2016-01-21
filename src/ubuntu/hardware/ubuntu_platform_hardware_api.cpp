@@ -101,3 +101,22 @@ u_hardware_gps_inject_xtra_data,
 UHardwareGps, 
 char*, 
 int);
+
+IMPLEMENT_FUNCTION0(
+    u_hardware_booster_new);
+
+IMPLEMENT_VOID_FUNCTION0(
+    u_hardware_booster_ref);
+
+IMPLEMENT_VOID_FUNCTION0(
+    u_hardware_booster_unref);
+
+IMPLEMENT_VOID_FUNCTION2(
+    u_hardware_booster_enable_scenario,
+    UHardwareBooster*,
+    UHardwareBoosterScenario);
+
+IMPLEMENT_VOID_FUNCTION2(
+    u_hardware_booster_disable_scenario,
+    UHardwareBooster*,
+    UHardwareBoosterScenario);
