@@ -19,6 +19,7 @@
 
 // C APIs
 #include <ubuntu/hardware/alarm.h>
+#include <ubuntu/hardware/booster.h>
 #include <ubuntu/hardware/gps.h>
 
 #include "android_hw_module.h"
@@ -103,13 +104,16 @@ char*,
 int);
 
 IMPLEMENT_FUNCTION0(
+    UHardwareBooster*,
     u_hardware_booster_new);
 
-IMPLEMENT_VOID_FUNCTION0(
-    u_hardware_booster_ref);
+IMPLEMENT_VOID_FUNCTION1(
+    u_hardware_booster_ref,
+    UHardwareBooster*);
 
-IMPLEMENT_VOID_FUNCTION0(
-    u_hardware_booster_unref);
+IMPLEMENT_VOID_FUNCTION1(
+    u_hardware_booster_unref,
+    UHardwareBooster*);
 
 IMPLEMENT_VOID_FUNCTION2(
     u_hardware_booster_enable_scenario,
