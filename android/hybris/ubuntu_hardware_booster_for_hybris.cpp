@@ -23,39 +23,53 @@
 
 struct UbuntuHardwareBooster : public android::RefBase
 {
-    typedef void (*PerfServiceEnableScenario)(int);
-    typedef void (*PerfServiceDisableScenario)(int);
+    typedef void (*BoosterEnableScenario)(int);
+    typedef void (*BoosterDisableScenario)(int);
 
-    static PerfServiceEnableScenario load_perf_service_enable_scenario(void* dl_handle)
+    static BoosterEnableScenario load_booster_enable_scenario(void* dl_handle)
     {
         if (!dl_handle)
             return NULL;
 
-        return static_cast<PerfServiceEnableScenario>(::dlsym(dl_handle, "PerfServiceNative_boostEnable"));
+        return static_cast<BoosterEnableScenario>(::dlsym(dl_handle, booster_enable_scenario_from_property()));
     }
 
-    static PerfServiceDisableScenario load_perf_service_disable_scenario(void* dl_handle)
+    static BoosterDisableScenario load_booster_disable_scenario(void* dl_handle)
     {
         if (!dl_handle)
             return NULL;
 
-        return static_cast<PerfServiceDisableScenario>(::dlsym(dl_handle, "PerfServiceNative_boostDisable"));
+        return static_cast<BoosterDisableScenario>(::dlsym(dl_handle, booster_disable_scenario_from_property()));
     }
 
     static const char* dl_path_from_property()
     {
         static char value[PROP_VALUE_MAX];
+        static int rc = property_get("ubuntu.booster.dl", value, NULL);
 
-        if (property_get("ubuntu.perfservice.dl", value, NULL) == 0)
-            return NULL;
+        return rc == 0 ? NULL : &value[0];
+    }
 
-        return &value[0];
+    static const char* booster_enable_scenario_from_property()
+    {
+        static char value[PROP_VALUE_MAX];
+        static int rc = property_get("ubuntu.booster.enable", value, NULL);
+
+        return rc == 0 ? NULL : &value[0];
+    }
+
+    static const char* booster_disable_scenario_from_property()
+    {
+        static char value[PROP_VALUE_MAX];
+        static int rc = property_get("ubuntu.booster.disable", value, NULL);
+
+        return rc == 0 ? NULL : &value[0];
     }
     
     UbuntuHardwareBooster()
             : dl_handle(dl_path_from_property(), RTLD_NOW),
-              perf_service_enable_scenario(load_perf_service_enable_scenario(dl_handle)),
-              perf_service_disable_scenario(load_perf_service_disable_scenario(dl_handle))
+              booster_enable_scenario(load_booster_enable_scenario(dl_handle)),
+              booster_disable_scenario(load_booster_disable_scenario(dl_handle))
     {
     }
 
@@ -67,19 +81,19 @@ struct UbuntuHardwareBooster : public android::RefBase
     
     void enable_scenario(UHardwareBoosterScenario scenario)
     {
-        if (perf_service_enable_scenario)
-            perf_service_enable_scenario(scenario);
+        if (booster_enable_scenario)
+            booster_enable_scenario(scenario);
     }
 
     void disable_scenario(UHardwareBoosterScenario)
     {
-        if (perf_service_disable_scenario)
-            perf_service_disable_scenario(scenario);
+        if (booster_disable_scenario)
+            booster_disable_scenario(scenario);
     }
 
     void* dl_handle;
-    PerfServiceEnableScenario perf_service_enable_scenario;
-    PerfServiceDisableScenario perf_service_disable_scenario;
+    BoosterEnableScenario booster_enable_scenario;
+    BoosterDisableScenario booster_disable_scenario;
 };
 
 UHardwareBooster*
