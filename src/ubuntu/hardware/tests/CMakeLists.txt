@@ -10,8 +10,12 @@ target_link_libraries(test_android_gps_api ubuntu_platform_hardware_api)
 add_executable(test_hardware_alarms_api test_alarms_api.cpp)
 target_link_libraries(test_hardware_alarms_api ubuntu_platform_hardware_api)
 
+add_executable(test_booster_api test_booster_api.cpp)
+target_link_libraries(test_booster_api ubuntu_platform_hardware_api)
+
 install(TARGETS
-	test_android_gps_api
-    test_hardware_alarms_api
-	DESTINATION bin
+  test_android_gps_api
+  test_hardware_alarms_api
+  test_booster_api
+  DESTINATION bin
 )
