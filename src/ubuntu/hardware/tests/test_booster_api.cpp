@@ -22,6 +22,8 @@
 #include <cstdio>
 #include <ctime>
 
+#include <iostream>
+
 namespace
 {
 void wait_for_sigint()
