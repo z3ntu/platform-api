@@ -19,8 +19,9 @@
 #include <ubuntu/hardware/booster.h>
 
 #include <cutils/properties.h>
+#include <utils/RefBase.h>
 
-struct UbuntuHardwareBooster
+struct UbuntuHardwareBooster : public android::RefBase
 {
     typedef void (*PerfServiceEnableScenario)(int);
     typedef void (*PerfServiceDisableScenario)(int);
@@ -88,15 +89,17 @@ u_hardware_booster_new()
 }
 
 void
-u_hardware_booster_ref(UHardwareBooster*)
+u_hardware_booster_ref(UHardwareBooster* booster)
 {
-    // TODO
+    if (booster)
+        booster->incStrong(NULL);
 }
 
 void
 u_hardware_booster_unref(UHardwareBooster*)
 {
-    // TODO
+    if (booster)
+        booster->decStrong(NULL);
 }
 
 void
