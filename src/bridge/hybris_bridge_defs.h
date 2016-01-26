@@ -45,6 +45,14 @@ extern "C" {
         DLSYM(&f, #symbol);                       \
         return f();}
 
+
+#define IMPLEMENT_OPTIONAL_FUNCTION0(return_type, symbol, return_value)  \
+    return_type symbol()                          \
+    {                                             \
+        static return_type (*f)() = NULL;         \
+        DLSYM(&f, #symbol);                       \
+        return f ? f() : return_value;}
+
 #define IMPLEMENT_VOID_FUNCTION0(symbol)          \
     void symbol()                                 \
     {                                             \
@@ -52,19 +60,40 @@ extern "C" {
         DLSYM(&f, #symbol);                       \
         f();}
 
+#define IMPLEMENT_OPTIONAL_VOID_FUNCTION0(symbol) \
+    void symbol()                                 \
+    {                                             \
+        static void (*f)() = NULL;                \
+        DLSYM(&f, #symbol);                       \
+        if (f) f();}
+
 #define IMPLEMENT_FUNCTION1(return_type, symbol, arg1) \
     return_type symbol(arg1 _1)                        \
     {                                                  \
         static return_type (*f)(arg1) = NULL;          \
-        DLSYM(&f, #symbol);                     \
+        DLSYM(&f, #symbol);                            \
         return f(_1); }
+
+#define IMPLEMENT_OPTIONAL_FUNCTION1(return_type, symbol, return_value, arg1) \
+    return_type symbol(arg1 _1)                                               \
+    {                                                                         \
+        static return_type (*f)(arg1) = NULL;                                 \
+        DLSYM(&f, #symbol);                                                   \
+        return f ? f(_1) : return_value; }
 
 #define IMPLEMENT_VOID_FUNCTION1(symbol, arg1)               \
     void symbol(arg1 _1)                                     \
     {                                                        \
         static void (*f)(arg1) = NULL;                       \
-        DLSYM(&f, #symbol);                           \
+        DLSYM(&f, #symbol);                                  \
         f(_1); }
+
+#define IMPLEMENT_OPTIONAL_VOID_FUNCTION1(symbol, arg1)               \
+    void symbol(arg1 _1)                                              \
+    {                                                                 \
+        static void (*f)(arg1) = NULL;                                \
+        DLSYM(&f, #symbol);                                           \
+        if (f) f(_1); }
 
 #define IMPLEMENT_FUNCTION2(return_type, symbol, arg1, arg2)    \
     return_type symbol(arg1 _1, arg2 _2)                        \
@@ -79,6 +108,13 @@ extern "C" {
         static void (*f)(arg1, arg2) = NULL;                    \
         DLSYM(&f, #symbol);                              \
         f(_1, _2); }
+
+#define IMPLEMENT_OPTIONAL_VOID_FUNCTION2(symbol, arg1, arg2)   \
+    void symbol(arg1 _1, arg2 _2)                               \
+    {                                                           \
+        static void (*f)(arg1, arg2) = NULL;                    \
+        DLSYM(&f, #symbol);                                     \
+        if (f) f(_1, _2); }
 
 #define IMPLEMENT_FUNCTION3(return_type, symbol, arg1, arg2, arg3)    \
     return_type symbol(arg1 _1, arg2 _2, arg3 _3)                     \

@@ -103,24 +103,25 @@ UHardwareGps,
 char*, 
 int);
 
-IMPLEMENT_FUNCTION0(
+IMPLEMENT_OPTIONAL_FUNCTION0(
     UHardwareBooster*,
-    u_hardware_booster_new);
+    u_hardware_booster_new,
+    NULL);
 
-IMPLEMENT_VOID_FUNCTION1(
+IMPLEMENT_OPTIONAL_VOID_FUNCTION1(
     u_hardware_booster_ref,
     UHardwareBooster*);
 
-IMPLEMENT_VOID_FUNCTION1(
+IMPLEMENT_OPTIONAL_VOID_FUNCTION1(
     u_hardware_booster_unref,
     UHardwareBooster*);
 
-IMPLEMENT_VOID_FUNCTION2(
+IMPLEMENT_OPTIONAL_VOID_FUNCTION2(
     u_hardware_booster_enable_scenario,
     UHardwareBooster*,
     UHardwareBoosterScenario);
 
-IMPLEMENT_VOID_FUNCTION2(
+IMPLEMENT_OPTIONAL_VOID_FUNCTION2(
     u_hardware_booster_disable_scenario,
     UHardwareBooster*,
     UHardwareBoosterScenario);
