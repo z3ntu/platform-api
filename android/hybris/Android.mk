@@ -24,6 +24,7 @@ LOCAL_C_INCLUDES := \
 LOCAL_SRC_FILES := \
 	ubuntu_application_gps_for_hybris.cpp \
 	ubuntu_application_sensors_for_hybris.cpp \
+	ubuntu_hardware_booster_for_hybris.cpp \
 	../default/default_ubuntu_application_sensor.cpp
 
 
@@ -33,6 +34,7 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_SHARED_LIBRARIES := \
 	libandroidfw \
 	libbinder \
+	libcutils \
 	libinput \
 	liblog \
 	libutils \
@@ -40,7 +42,8 @@ LOCAL_SHARED_LIBRARIES := \
 	libEGL \
 	libGLESv2 \
 	libhardware \
-	libhardware_legacy
+	libhardware_legacy \
+	libdl
 
 include $(BUILD_SHARED_LIBRARY)
 

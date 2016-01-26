@@ -21,17 +21,30 @@
 #include <cutils/properties.h>
 #include <utils/RefBase.h>
 
+#include <dlfcn.h>
+
 struct UbuntuHardwareBooster : public android::RefBase
 {
     typedef void (*BoosterEnableScenario)(int);
     typedef void (*BoosterDisableScenario)(int);
 
+    static int translate_ubuntu_scenario(UHardwareBoosterScenario scenario)
+    {
+        switch (scenario)
+        {
+            case U_HARDWARE_BOOSTER_SCENARIO_USER_INTERACTION:
+                return 5;
+        }
+
+        return 0;
+    }
+    
     static BoosterEnableScenario load_booster_enable_scenario(void* dl_handle)
     {
         if (!dl_handle)
             return NULL;
 
-        return static_cast<BoosterEnableScenario>(::dlsym(dl_handle, booster_enable_scenario_from_property()));
+        return reinterpret_cast<BoosterEnableScenario>(::dlsym(dl_handle, booster_enable_scenario_from_property()));
     }
 
     static BoosterDisableScenario load_booster_disable_scenario(void* dl_handle)
@@ -39,7 +52,7 @@ struct UbuntuHardwareBooster : public android::RefBase
         if (!dl_handle)
             return NULL;
 
-        return static_cast<BoosterDisableScenario>(::dlsym(dl_handle, booster_disable_scenario_from_property()));
+        return reinterpret_cast<BoosterDisableScenario>(::dlsym(dl_handle, booster_disable_scenario_from_property()));
     }
 
     static const char* dl_path_from_property()
@@ -67,7 +80,7 @@ struct UbuntuHardwareBooster : public android::RefBase
     }
     
     UbuntuHardwareBooster()
-            : dl_handle(dl_path_from_property(), RTLD_NOW),
+            : dl_handle(dlopen(dl_path_from_property(), RTLD_NOW)),
               booster_enable_scenario(load_booster_enable_scenario(dl_handle)),
               booster_disable_scenario(load_booster_disable_scenario(dl_handle))
     {
@@ -82,13 +95,13 @@ struct UbuntuHardwareBooster : public android::RefBase
     void enable_scenario(UHardwareBoosterScenario scenario)
     {
         if (booster_enable_scenario)
-            booster_enable_scenario(scenario);
+            booster_enable_scenario(translate_ubuntu_scenario(scenario));
     }
 
-    void disable_scenario(UHardwareBoosterScenario)
+    void disable_scenario(UHardwareBoosterScenario scenario)
     {
         if (booster_disable_scenario)
-            booster_disable_scenario(scenario);
+            booster_disable_scenario(translate_ubuntu_scenario(scenario));
     }
 
     void* dl_handle;
@@ -110,7 +123,7 @@ u_hardware_booster_ref(UHardwareBooster* booster)
 }
 
 void
-u_hardware_booster_unref(UHardwareBooster*)
+u_hardware_booster_unref(UHardwareBooster* booster)
 {
     if (booster)
         booster->decStrong(NULL);
