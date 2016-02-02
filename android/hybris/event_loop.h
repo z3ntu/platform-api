@@ -21,6 +21,10 @@
 #include <utils/Looper.h>
 #include <utils/threads.h>
 
+#if ANDROID_VERSION_MAJOR==5
+#include "android/looper.h"
+#endif
+
 namespace ubuntu
 {
 namespace application
