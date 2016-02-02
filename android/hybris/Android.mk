@@ -17,6 +17,10 @@ UPAPI_PATH := $(LOCAL_PATH)/../../
 
 LOCAL_CFLAGS += -std=gnu++0x
 
+ifeq ($(BOARD_HAS_GNSS_STATUS_CALLBACK),true)
+LOCAL_CFLAGS += -DBOARD_HAS_GNSS_STATUS_CALLBACK
+endif
+
 LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/include \
 	$(UPAPI_PATH)/android/include
