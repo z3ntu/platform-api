@@ -175,6 +175,9 @@ GpsCallbacks gps_callbacks =
     location_callback,
     status_callback,
     sv_status_callback,
+#ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
+    NULL,
+#endif
     nmea_callback,
     set_capabilities_callback,
     acquire_wakelock_callback,
