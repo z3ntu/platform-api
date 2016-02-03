@@ -59,7 +59,10 @@ struct HIDDEN_SYMBOL ToHybris
 };
 }
 
-#define DLSYM(fptr, sym) if (*(fptr) == NULL) { *((void**)fptr) = (void *) internal::Bridge<internal::ToHybris>::instance().resolve_symbol(sym); }
+#define DLSYM(fptr, sym) if (*(fptr) == NULL) \
+    {\
+        *((void**)fptr) = (void *) internal::Bridge<internal::ToHybris>::instance().resolve_symbol(sym);\
+    }
 
 #include <hybris_bridge_defs.h>
 

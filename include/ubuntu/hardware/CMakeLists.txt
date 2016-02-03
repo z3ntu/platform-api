@@ -1,6 +1,7 @@
 set(
   UBUNTU_HARDWARE_HEADERS
   alarm.h
+  booster.h
   gps.h
 )
 

@@ -6,6 +6,11 @@ libubuntu_platform_hardware_api.so.3 libubuntu-platform-hardware-api3 #MINVER#
  u_hardware_alarm_set_timezone@Base 1.2.0+14.10.20140522.1
  u_hardware_alarm_unref@Base 1.2.0+14.10.20140522.1
  u_hardware_alarm_wait_for_next_alarm@Base 1.2.0+14.10.20140522.1
+ u_hardware_booster_disable_scenario@Base 0replaceme
+ u_hardware_booster_enable_scenario@Base 0replaceme
+ u_hardware_booster_new@Base 0replaceme
+ u_hardware_booster_ref@Base 0replaceme
+ u_hardware_booster_unref@Base 0replaceme
  u_hardware_gps_delete@Base 0.18.2+13.10.20130709
  u_hardware_gps_delete_aiding_data@Base 0.18.2+13.10.20130709
  u_hardware_gps_inject_location@Base 0.18.2+13.10.20130709

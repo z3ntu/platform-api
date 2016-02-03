@@ -18,6 +18,8 @@
 #ifndef EVENT_LOOP_H_
 #define EVENT_LOOP_H_
 
+#include <android/looper.h>
+
 #include <utils/Looper.h>
 #include <utils/threads.h>
 
