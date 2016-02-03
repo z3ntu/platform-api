@@ -1,3 +1,19 @@
+platform-api (3.0.1+16.04.20160203-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * debian/libubuntu-platform-hardware-api3.symbols: update to released
+    version.
+
+  [ Simon Fels ]
+  * Workaround API break in Android GPS hardware abstraction API on MTK
+    platforms. Each device which need this workaround has to add
+
+  [ Thomas Voß ]
+  * Expose performance boosting capabilities of the underlying
+    HW/drivers.
+
+ -- Simon Fels <simon.busch@canonical.com>  Wed, 03 Feb 2016 10:00:59 +0000
+
 platform-api (3.0.1+16.04.20151127-0ubuntu1) xenial; urgency=medium
 
   [ Nick Dedekind ]
