@@ -82,46 +82,36 @@ UHardwareGps hybris_gps_instance = NULL;
 
 static void location_callback(GpsLocation* location)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->location_cb(
-        reinterpret_cast<UHardwareGpsLocation*>(location),
-        hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->location_cb)
+        hybris_gps_instance->location_cb(
+            reinterpret_cast<UHardwareGpsLocation*>(location),
+            hybris_gps_instance->context);
 }
 
 static void status_callback(GpsStatus* status)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->status_cb(status->status, hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->status_cb)
+        hybris_gps_instance->status_cb(status->status, hybris_gps_instance->context);
 }
 
 static void sv_status_callback(GpsSvStatus* sv_status)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->sv_status_cb(
+    if (hybris_gps_instance && hybris_gps_instance->sv_status_cb)
+        hybris_gps_instance->sv_status_cb(
             reinterpret_cast<UHardwareGpsSvStatus*>(sv_status),
             hybris_gps_instance->context);
 }
 
 static void nmea_callback(GpsUtcTime timestamp, const char* nmea, int length)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->nmea_cb(timestamp, nmea, length, hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->nmea_cb)
+        hybris_gps_instance->nmea_cb(timestamp, nmea, length, hybris_gps_instance->context);
 }
 
 static void set_capabilities_callback(uint32_t capabilities)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->set_capabilities_cb(capabilities, hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->set_capabilities_cb)
+        hybris_gps_instance->set_capabilities_cb(capabilities, hybris_gps_instance->context);
 }
 
 static void acquire_wakelock_callback()
@@ -136,10 +126,8 @@ static void release_wakelock_callback()
 
 static void request_utc_time_callback()
 {
-    if (!hybris_gps_instance)
-        return;
-
-    hybris_gps_instance->request_utc_time_cb(hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->request_utc_time_cb)
+        hybris_gps_instance->request_utc_time_cb(hybris_gps_instance->context);
 }
 
 
@@ -188,7 +176,7 @@ GpsCallbacks gps_callbacks =
 
 static void xtra_download_request_callback()
 {
-    if (hybris_gps_instance)
+    if (hybris_gps_instance && hybris_gps_instance->xtra_download_request_cb)
         hybris_gps_instance->xtra_download_request_cb(hybris_gps_instance->context);
 }
 
@@ -200,20 +188,9 @@ GpsXtraCallbacks gps_xtra_callbacks =
 
 static void agps_status_cb(AGpsStatus* agps_status)
 {
-    if (!hybris_gps_instance)
-        return;
-
-    /*
-    uint32_t ipaddr;
-    // ipaddr field was not included in original AGpsStatus
-    if (agps_status->size >= sizeof(AGpsStatus))
-        ipaddr = agps_status->ipaddr;
-    else
-        ipaddr = 0xFFFFFFFF;
-    */
-
-    hybris_gps_instance->agps_status_cb(
-        reinterpret_cast<UHardwareGpsAGpsStatus*>(agps_status), hybris_gps_instance->context);
+    if (hybris_gps_instance && hybris_gps_instance->agps_status_cb)
+        hybris_gps_instance->agps_status_cb(
+            reinterpret_cast<UHardwareGpsAGpsStatus*>(agps_status), hybris_gps_instance->context);
 }
 
 AGpsCallbacks agps_callbacks =
@@ -224,7 +201,7 @@ AGpsCallbacks agps_callbacks =
 
 static void gps_ni_notify_cb(GpsNiNotification *notification)
 {
-    if (hybris_gps_instance)
+    if (hybris_gps_instance && hybris_gps_instance->gps_ni_notify_cb)
         hybris_gps_instance->gps_ni_notify_cb(
             reinterpret_cast<UHardwareGpsNiNotification*>(notification),
             hybris_gps_instance->context);
@@ -238,13 +215,13 @@ GpsNiCallbacks gps_ni_callbacks =
 
 static void agps_request_set_id(uint32_t flags)
 {
-    if (hybris_gps_instance)
+    if (hybris_gps_instance && hybris_gps_instance->request_setid_cb)
         hybris_gps_instance->request_setid_cb(flags, hybris_gps_instance->context);
 }
 
 static void agps_request_ref_location(uint32_t flags)
 {
-    if (hybris_gps_instance)
+    if (hybris_gps_instance && hybris_gps_instance->request_refloc_cb)
         hybris_gps_instance->request_refloc_cb(flags, hybris_gps_instance->context);
 }
 
@@ -276,33 +253,7 @@ UHardwareGps_::UHardwareGps_(UHardwareGpsParams* params)
       request_refloc_cb(params->request_refloc_cb),
       context(params->context)
 {
-    int err;
-    hw_module_t* module;
-
-    err = hw_get_module(GPS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
-    if (err == 0)
-    {
-        hw_device_t* device;
-        err = module->methods->open(module, GPS_HARDWARE_MODULE_ID, &device);
-        if (err == 0)
-        {
-            gps_device_t* gps_device = (gps_device_t *)device;
-            gps_interface = gps_device->get_gps_interface(gps_device);
-        }
-    }
-    if (gps_interface)
-    {
-        gps_xtra_interface =
-            (const GpsXtraInterface*)gps_interface->get_extension(GPS_XTRA_INTERFACE);
-        agps_interface =
-            (const AGpsInterface*)gps_interface->get_extension(AGPS_INTERFACE);
-        gps_ni_interface =
-            (const GpsNiInterface*)gps_interface->get_extension(GPS_NI_INTERFACE);
-        gps_debug_interface =
-            (const GpsDebugInterface*)gps_interface->get_extension(GPS_DEBUG_INTERFACE);
-        agps_ril_interface =
-            (const AGpsRilInterface*)gps_interface->get_extension(AGPS_RIL_INTERFACE);
-    }
+   
 }
 
 UHardwareGps_::~UHardwareGps_()
@@ -313,10 +264,35 @@ UHardwareGps_::~UHardwareGps_()
 
 bool UHardwareGps_::init()
 {
-    // fail if the main interface fails to initialize
-    if (!gps_interface || gps_interface->init(&gps_callbacks) != 0)
-        return false;
+    int err;
+    hw_module_t* module;
 
+    err = hw_get_module(GPS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
+
+    if (err != 0) return false;
+
+    hw_device_t* device;
+    err = module->methods->open(module, GPS_HARDWARE_MODULE_ID, &device);
+
+    if (err != 0) return false;
+
+    gps_device_t* gps_device = (gps_device_t *)device;
+    gps_interface = gps_device->get_gps_interface(gps_device);
+
+    if (not gps_interface) return false;
+    if (gps_interface->init(&gps_callbacks) != 0) return false;
+    
+    gps_xtra_interface =
+            (const GpsXtraInterface*)gps_interface->get_extension(GPS_XTRA_INTERFACE);
+    agps_interface =
+            (const AGpsInterface*)gps_interface->get_extension(AGPS_INTERFACE);
+    gps_ni_interface =
+            (const GpsNiInterface*)gps_interface->get_extension(GPS_NI_INTERFACE);
+    gps_debug_interface =
+            (const GpsDebugInterface*)gps_interface->get_extension(GPS_DEBUG_INTERFACE);
+    agps_ril_interface =
+            (const AGpsRilInterface*)gps_interface->get_extension(AGPS_RIL_INTERFACE);
+    
     // if XTRA initialization fails we will disable it by gps_Xtra_interface to null,
     // but continue to allow the rest of the GPS interface to work.
     if (gps_xtra_interface && gps_xtra_interface->init(&gps_xtra_callbacks) != 0)
@@ -430,13 +406,19 @@ UHardwareGps u_hardware_gps_new(UHardwareGpsParams* params)
     UHardwareGps u_hardware_gps = new UHardwareGps_(params);
     hybris_gps_instance = u_hardware_gps;
 
-    if (!u_hardware_gps->init())
-    {
-        delete u_hardware_gps;
-        u_hardware_gps = NULL;
-    }
+    // Try ten times to initialize the GPS HAL interface,
+    // sleeping for 200ms per iteration in case of issues.
+    for (unsigned int i = 0; i < 10; i++)
+        if (u_hardware_gps->init())
+            return hybris_gps_instance = u_hardware_gps;
+        else
+            // Sleep for some time and leave some time for the system
+            // to finish initialization.
+            ::usleep(200 * 1000);
 
-    return u_hardware_gps;
+    // This is the error case, as we did not succeed in initializing the GPS interface.
+    delete u_hardware_gps;
+    return hybris_gps_instance;
 }
 
 void u_hardware_gps_delete(UHardwareGps handle)
