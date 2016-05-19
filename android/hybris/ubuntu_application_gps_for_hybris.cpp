@@ -408,7 +408,7 @@ UHardwareGps u_hardware_gps_new(UHardwareGpsParams* params)
 
     // Try ten times to initialize the GPS HAL interface,
     // sleeping for 200ms per iteration in case of issues.
-    for (unsigned int i = 0; i < 10; i++)
+    for (unsigned int i = 0; i < 50; i++)
         if (u_hardware_gps->init())
             return hybris_gps_instance = u_hardware_gps;
         else
