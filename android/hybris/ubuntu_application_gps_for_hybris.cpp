@@ -102,6 +102,14 @@ static void sv_status_callback(GpsSvStatus* sv_status)
             hybris_gps_instance->context);
 }
 
+#ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
+static void gnss_svn_status_callback(GnssSvStatus*)
+{
+    // Empty on purpose. We do not expose status information about
+    // other satellites networks, yet.
+}
+#endif
+
 static void nmea_callback(GpsUtcTime timestamp, const char* nmea, int length)
 {
     if (hybris_gps_instance && hybris_gps_instance->nmea_cb)
@@ -164,7 +172,7 @@ GpsCallbacks gps_callbacks =
     status_callback,
     sv_status_callback,
 #ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
-    NULL,
+    gnss_sv_status_callback,
 #endif
     nmea_callback,
     set_capabilities_callback,
