@@ -105,7 +105,7 @@ static void sv_status_callback(GpsSvStatus* sv_status)
 }
 
 #ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
-static void gnss_svn_status_callback(GnssSvStatus*)
+static void gnss_sv_status_callback(GnssSvStatus*)
 {
     // Empty on purpose. We do not expose status information about
     // other satellites networks, yet.
