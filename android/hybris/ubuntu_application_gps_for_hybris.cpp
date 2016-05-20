@@ -81,7 +81,9 @@ namespace
 {
 UHardwareGps hybris_gps_instance = NULL;
 
-static void location_callback(GpsLocation* location)
+namespace cb
+{
+static void location(GpsLocation* location)
 {
     if (hybris_gps_instance && hybris_gps_instance->location_cb)
         hybris_gps_instance->location_cb(
@@ -89,13 +91,13 @@ static void location_callback(GpsLocation* location)
             hybris_gps_instance->context);
 }
 
-static void status_callback(GpsStatus* status)
+static void status(GpsStatus* status)
 {
     if (hybris_gps_instance && hybris_gps_instance->status_cb)
         hybris_gps_instance->status_cb(status->status, hybris_gps_instance->context);
 }
 
-static void sv_status_callback(GpsSvStatus* sv_status)
+static void sv_status(GpsSvStatus* sv_status)
 {
     if (hybris_gps_instance && hybris_gps_instance->sv_status_cb)
         hybris_gps_instance->sv_status_cb(
@@ -104,36 +106,36 @@ static void sv_status_callback(GpsSvStatus* sv_status)
 }
 
 #ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
-static void gnss_sv_status_callback(GnssSvStatus*)
+static void gnss_sv_status(GnssSvStatus*)
 {
     // Empty on purpose. We do not expose status information about
     // other satellites networks, yet.
 }
 #endif
 
-static void nmea_callback(GpsUtcTime timestamp, const char* nmea, int length)
+static void nmea(GpsUtcTime timestamp, const char* nmea, int length)
 {
     if (hybris_gps_instance && hybris_gps_instance->nmea_cb)
         hybris_gps_instance->nmea_cb(timestamp, nmea, length, hybris_gps_instance->context);
 }
 
-static void set_capabilities_callback(uint32_t capabilities)
+static void set_capabilities(uint32_t capabilities)
 {
     if (hybris_gps_instance && hybris_gps_instance->set_capabilities_cb)
         hybris_gps_instance->set_capabilities_cb(capabilities, hybris_gps_instance->context);
 }
 
-static void acquire_wakelock_callback()
+static void acquire_wakelock()
 {
     acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_NAME);
 }
 
-static void release_wakelock_callback()
+static void release_wakelock()
 {
     release_wake_lock(WAKE_LOCK_NAME);
 }
 
-static void request_utc_time_callback()
+static void request_utc_time()
 {
     if (hybris_gps_instance && hybris_gps_instance->request_utc_time_cb)
         hybris_gps_instance->request_utc_time_cb(hybris_gps_instance->context);
@@ -145,7 +147,7 @@ typedef struct
     void *arg;
 } FuncAndArg;
 
-static void * thread_start_wrapper(void* arg)
+static void* thread_start_wrapper(void* arg)
 {
     FuncAndArg *func_and_arg = reinterpret_cast<FuncAndArg*>(arg);
     func_and_arg->func(func_and_arg->arg);
@@ -153,7 +155,7 @@ static void * thread_start_wrapper(void* arg)
     return NULL;
 }
 
-static pthread_t create_thread_callback(const char* name, void (*start)(void *), void* arg)
+static pthread_t create_thread(const char* name, void (*start)(void *), void* arg)
 {
     pthread_t thread;
 
@@ -164,51 +166,50 @@ static pthread_t create_thread_callback(const char* name, void (*start)(void *),
     pthread_create(&thread, NULL, thread_start_wrapper, func_and_arg);
     return thread;
 }
-}
 
-GpsCallbacks gps_callbacks =
+GpsCallbacks gps =
 {
     sizeof(GpsCallbacks),
-    location_callback,
-    status_callback,
-    sv_status_callback,
+    cb::location,
+    cb::status,
+    cb::sv_status,
 #ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
-    gnss_sv_status_callback,
+    cb::gnss_sv_status,
 #endif
-    nmea_callback,
-    set_capabilities_callback,
-    acquire_wakelock_callback,
-    release_wakelock_callback,
-    create_thread_callback,
-    request_utc_time_callback,
+    cb::nmea,
+    cb::set_capabilities,
+    cb::acquire_wakelock,
+    cb::release_wakelock,
+    cb::create_thread,
+    cb::request_utc_time,
 };
 
-static void xtra_download_request_callback()
+static void xtra_download_request()
 {
     if (hybris_gps_instance && hybris_gps_instance->xtra_download_request_cb)
         hybris_gps_instance->xtra_download_request_cb(hybris_gps_instance->context);
 }
 
-GpsXtraCallbacks gps_xtra_callbacks =
+GpsXtraCallbacks gps_xtra =
 {
-    xtra_download_request_callback,
-    create_thread_callback,
+    cb::xtra_download_request,
+    cb::create_thread,
 };
 
-static void agps_status_cb(AGpsStatus* agps_status)
+static void agps_status(AGpsStatus* agps_status)
 {
     if (hybris_gps_instance && hybris_gps_instance->agps_status_cb)
         hybris_gps_instance->agps_status_cb(
             reinterpret_cast<UHardwareGpsAGpsStatus*>(agps_status), hybris_gps_instance->context);
 }
 
-AGpsCallbacks agps_callbacks =
+AGpsCallbacks agps =
 {
-    agps_status_cb,
-    create_thread_callback,
+    cb::agps_status,
+    cb::create_thread
 };
 
-static void gps_ni_notify_cb(GpsNiNotification *notification)
+static void gps_ni_notify(GpsNiNotification *notification)
 {
     if (hybris_gps_instance && hybris_gps_instance->gps_ni_notify_cb)
         hybris_gps_instance->gps_ni_notify_cb(
@@ -216,10 +217,10 @@ static void gps_ni_notify_cb(GpsNiNotification *notification)
             hybris_gps_instance->context);
 }
 
-GpsNiCallbacks gps_ni_callbacks =
+GpsNiCallbacks gps_ni =
 {
-    gps_ni_notify_cb,
-    create_thread_callback,
+    cb::gps_ni_notify,
+    cb::create_thread,
 };
 
 static void agps_request_set_id(uint32_t flags)
@@ -234,13 +235,14 @@ static void agps_request_ref_location(uint32_t flags)
         hybris_gps_instance->request_refloc_cb(flags, hybris_gps_instance->context);
 }
 
-AGpsRilCallbacks agps_ril_callbacks =
+AGpsRilCallbacks agps_ril =
 {
-    agps_request_set_id,
-    agps_request_ref_location,
-    create_thread_callback,
+    cb::agps_request_set_id,
+    cb::agps_request_ref_location,
+    cb::create_thread,
 };
-
+}
+}
 
 UHardwareGps_::UHardwareGps_(UHardwareGpsParams* params)
     : gps_interface(NULL),
@@ -289,7 +291,7 @@ bool UHardwareGps_::init()
     gps_interface = gps_device->get_gps_interface(gps_device);
 
     if (not gps_interface) return false;
-    if (gps_interface->init(&gps_callbacks) != 0) return false;
+    if (gps_interface->init(&cb::gps) != 0) return false;
     
     gps_xtra_interface =
             (const GpsXtraInterface*)gps_interface->get_extension(GPS_XTRA_INTERFACE);
@@ -304,14 +306,14 @@ bool UHardwareGps_::init()
     
     // if XTRA initialization fails we will disable it by gps_Xtra_interface to null,
     // but continue to allow the rest of the GPS interface to work.
-    if (gps_xtra_interface && gps_xtra_interface->init(&gps_xtra_callbacks) != 0)
+    if (gps_xtra_interface && gps_xtra_interface->init(&cb::gps_xtra) != 0)
         gps_xtra_interface = NULL;
     if (agps_interface)
-        agps_interface->init(&agps_callbacks);
+        agps_interface->init(&cb::agps);
     if (gps_ni_interface)
-        gps_ni_interface->init(&gps_ni_callbacks);
+        gps_ni_interface->init(&cb::gps_ni);
     if (agps_ril_interface)
-        agps_ril_interface->init(&agps_ril_callbacks);
+        agps_ril_interface->init(&cb::agps_ril);
 
     return true;
 }
