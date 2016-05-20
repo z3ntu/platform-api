@@ -80,7 +80,6 @@ struct UHardwareGps_
 namespace
 {
 UHardwareGps hybris_gps_instance = NULL;
-}
 
 static void location_callback(GpsLocation* location)
 {
@@ -140,7 +139,6 @@ static void request_utc_time_callback()
         hybris_gps_instance->request_utc_time_cb(hybris_gps_instance->context);
 }
 
-
 typedef struct 
 {
     void (*func)(void *);
@@ -165,6 +163,7 @@ static pthread_t create_thread_callback(const char* name, void (*start)(void *),
 
     pthread_create(&thread, NULL, thread_start_wrapper, func_and_arg);
     return thread;
+}
 }
 
 GpsCallbacks gps_callbacks =
