@@ -23,6 +23,8 @@
 #include <hardware/gps.h>
 #include <hardware_legacy/power.h>
 
+#include <unistd.h>
+
 #define WAKE_LOCK_NAME  "U_HARDWARE_GPS"
 
 struct UHardwareGps_
