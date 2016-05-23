@@ -1,3 +1,14 @@
+platform-api (3.0.1+16.10.20160523-0ubuntu1) yakkety; urgency=medium
+
+  [ Ted Gould ]
+  * Switch libraries to be shared instead of modules to get versioned
+    .so's (LP: #1582642)
+
+  [ Thomas Voß ]
+  * Fix lp:1573168. (LP: #1573168)
+
+ -- Thomas Voß <ci-train-bot@canonical.com>  Mon, 23 May 2016 07:49:31 +0000
+
 platform-api (3.0.1+16.04.20160203-0ubuntu2) xenial; urgency=medium
 
   * No-change rebuild for enabling arm64.
