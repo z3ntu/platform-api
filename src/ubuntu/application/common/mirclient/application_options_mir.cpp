@@ -30,6 +30,9 @@
 
 #include <unistd.h>
 
+// opterr is a extern variable exported by glibc that
+// controls whether getopt prints warnings on unknown options
+// see 'man opterr'
 extern int opterr;
 
 namespace uam = ubuntu::application::mir;
