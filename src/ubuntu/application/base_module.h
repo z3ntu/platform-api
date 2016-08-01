@@ -64,8 +64,8 @@ struct HIDDEN_SYMBOL ToBackend
             }
             if (cache == NULL) {
                 // No module available, use dummy.
-                fprintf(stderr, "Unable to select module, using dummy.\n");
-                strcpy(path, override_path());
+                fprintf(stderr, "Unable to select module, using null backend.\n");
+                return NULL;
             } else {
                 strcpy(path, "libubuntu_application_api_");
                 
@@ -103,6 +103,11 @@ struct HIDDEN_SYMBOL ToBackend
 
     static void* dlopen_fn(const char* path, int flags)
     {
+        // We take a NULL path as an indication that we are running with a
+        // null backend.
+        if (not path)
+            return NULL;
+
         void *handle = dlopen(path, flags);
         if (handle == NULL) {
             fprintf(stderr, "Unable to load selected module, using dummy.\n");
