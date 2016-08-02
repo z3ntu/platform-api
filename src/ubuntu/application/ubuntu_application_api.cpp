@@ -50,7 +50,7 @@ IMPLEMENT_VOID_FUNCTION1(init, u_application_init, void*);
 IMPLEMENT_VOID_FUNCTION0(init, u_application_finish);
 
 // Lifecycle helpers
-IMPLEMENT_FUNCTION0(lifecycle, UApplicationLifecycleDelegate*, u_application_lifecycle_delegate_new);
+IMPLEMENT_CTOR0(lifecycle, UApplicationLifecycleDelegate*, u_application_lifecycle_delegate_new);
 IMPLEMENT_VOID_FUNCTION2(lifecycle, u_application_lifecycle_delegate_set_context, UApplicationLifecycleDelegate*, void*);
 IMPLEMENT_VOID_FUNCTION1(lifecycle, u_application_lifecycle_delegate_ref, UApplicationLifecycleDelegate*);
 IMPLEMENT_VOID_FUNCTION1(lifecycle, u_application_lifecycle_delegate_unref, UApplicationLifecycleDelegate*);

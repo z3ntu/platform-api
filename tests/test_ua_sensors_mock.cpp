@@ -225,7 +225,7 @@ TESTP_F(SimBackendTest, LightEvents, {
     event_time = time_point_system_ns(std::chrono::nanoseconds(e.timestamp));
     delay = chrono::duration_cast<chrono::milliseconds>(event_time - start_time).count();
     EXPECT_GE(delay, 91);
-    EXPECT_LE(delay, 111);
+    EXPECT_LE(delay, 112);
 })
 
 TESTP_F(SimBackendTest, AccelEvents, {
