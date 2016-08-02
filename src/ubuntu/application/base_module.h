@@ -122,6 +122,8 @@ struct HIDDEN_SYMBOL ToBackend
 
     static void* dlsym_fn(void* handle, const char* symbol)
     {
+        if (not handle)
+            return NULL;
         return dlsym(handle, symbol);
     }
 };
