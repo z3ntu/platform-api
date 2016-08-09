@@ -30,6 +30,11 @@
 
 #include <unistd.h>
 
+// opterr is a extern variable exported by glibc that
+// controls whether getopt prints warnings on unknown options
+// see 'man opterr'
+extern int opterr;
+
 namespace uam = ubuntu::application::mir;
 
 UApplicationOptions* uam::Options::as_u_application_options()
@@ -112,6 +117,10 @@ u_application_options_new_from_cmd_line(int argc, char** argv)
         }
     }
 
+    // Do not complain about options we don't know
+    // the app may have other params
+    int orig_opterr = opterr;
+    opterr = 0;
     while(true)
     {
         int option_index = 0;
@@ -147,6 +156,7 @@ u_application_options_new_from_cmd_line(int argc, char** argv)
             break;
         }
     }
+    opterr = orig_opterr;
     
     return app_options->as_u_application_options();
 }
