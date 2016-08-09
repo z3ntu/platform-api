@@ -1,3 +1,11 @@
+platform-api (3.0.1+16.10.20160809-0ubuntu1) yakkety; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Remove spurious warnings about invalid option when parsing command
+    line arguments
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 09 Aug 2016 23:00:57 +0000
+
 platform-api (3.0.1+16.10.20160802-0ubuntu1) yakkety; urgency=medium
 
   * Do not fallback to test backend automatically.
