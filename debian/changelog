@@ -1,3 +1,10 @@
+platform-api (3.0.1+16.10.20160818-0ubuntu1) yakkety; urgency=medium
+
+  [ You-Sheng Yang ]
+  * android: remove /system/lib prefix from lib path
+
+ -- Vicamo Yang <vicamo@gmail.com>  Thu, 18 Aug 2016 08:53:54 +0000
+
 platform-api (3.0.1+16.10.20160809-0ubuntu1) yakkety; urgency=medium
 
   [ Albert Astals Cid ]
