@@ -38,7 +38,7 @@ struct HIDDEN_SYMBOL ToHybris
 {
     static const char* path()
     {
-        static const char* cache = "/system/lib/libubuntu_application_api.so";
+        static const char* cache = "libubuntu_application_api.so";
         return cache;
     }
 
