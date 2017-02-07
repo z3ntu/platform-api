@@ -11,6 +11,10 @@ override_dh_auto_configure:
 	dh_auto_configure -- -DCMAKE_C_COMPILER=$(CC) -DCMAKE_CXX_COMPILER=$(CXX)
 
 override_dh_install:
+	#clean gmock/gtest if it built in our build dir
+	rm -f debian/tmp/usr/lib/libgmock*.a debian/tmp/usr/lib/libgtest*.a
+	rm -rf debian/tmp/usr/include/gmock debian/tmp/usr/include/gtest
+
 	dh_install --fail-missing
 
 override_dh_auto_test:
