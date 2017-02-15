@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <signal.h>
+#include <unistd.h>
 
 namespace uam = ubuntu::application::mir;
 namespace uamc = uam::client;
@@ -56,8 +58,10 @@ static void dispatch_callback(MirConnection* conn, MirLifecycleState state, void
             delegate->resumed_cb(nullptr, c_ctx);
         break;
     }
-    default:
-        break;
+    case mir_lifecycle_connection_lost:
+    {
+        kill(getpid(), SIGHUP);
+    }
     }
 }
 };
