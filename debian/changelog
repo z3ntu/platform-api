@@ -1,3 +1,9 @@
+platform-api (3.0.2+ubports) xenial; urgency=medium
+
+  * Imported to UBports
+
+ -- UBports auto importer <infra@ubports.com>  Fri, 13 Oct 2017 17:37:53 +0200
+
 platform-api (3.0.1+17.04.20170215-0ubuntu1) zesty; urgency=medium
 
   [ Gerry Boland ]
