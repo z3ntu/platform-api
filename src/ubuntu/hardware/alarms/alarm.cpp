@@ -16,6 +16,8 @@
  * Authored by: Thomas Voß <thomas.voss@canonical.com>
  */
 
+#include <time.h>
+#define _LINUX_TIME_H
 #include <android/linux/android_alarm.h>
 
 #include <ubuntu/hardware/alarm.h>
