@@ -77,8 +77,22 @@ static BackwardSensorTypeLut init_backward_sensor_type_lut()
     return lut;
 }
 
+#if ANDROID_VERSION_MAJOR >= 7
+static char* init_instance_package_name()
+{
+    const size_t MAX_PACKAGENAME_LEN = PATH_MAX;
+    char* reallink = new char[MAX_PACKAGENAME_LEN];
+    const ssize_t reallen = readlink("/proc/self/exe", reallink, MAX_PACKAGENAME_LEN);
+    reallink[reallen - 1] = 0;
+    return reallink;
+}
+
+static const char* instance_package_name = init_instance_package_name();
+#endif
+
 static const ForwardSensorTypeLut forward_sensor_type_lut = init_forward_sensor_type_lut();
 static const BackwardSensorTypeLut backward_sensor_type_lut = init_backward_sensor_type_lut();
+
 
 struct Sensor : public ubuntu::application::sensors::Sensor
 {
@@ -266,7 +280,12 @@ struct SensorService : public ubuntu::application::sensors::SensorService
     }
 
     SensorService() :
+#if ANDROID_VERSION_MAJOR >= 7
+        sensor_event_queue(android::SensorManager::getInstanceForPackage(
+                             android::String16(hybris::instance_package_name)).createEventQueue()),
+#else
         sensor_event_queue(android::SensorManager::getInstance().createEventQueue()),
+#endif
         looper(new android::Looper(false)),
         event_loop(new ubuntu::application::EventLoop(looper))
     {
@@ -277,8 +296,11 @@ struct SensorService : public ubuntu::application::sensors::SensorService
             looper_callback,
             this);
 
+#if ANDROID_VERSION_MAJOR >= 7
+        event_loop->run(instance_package_name);
+#else
         event_loop->run();
-
+#endif
     }
 
     android::sp<android::SensorEventQueue> sensor_event_queue;
@@ -294,8 +316,15 @@ ubuntu::application::sensors::Sensor::Ptr ubuntu::application::sensors::SensorSe
     ubuntu::application::sensors::SensorType type)
 {
     const android::Sensor* sensor =
-        android::SensorManager::getInstance().getDefaultSensor(
-            hybris::forward_sensor_type_lut.valueFor(type));
+
+#if ANDROID_VERSION_MAJOR >= 7
+        android::SensorManager::getInstanceForPackage(
+            android::String16(hybris::instance_package_name)).
+            getDefaultSensor(hybris::forward_sensor_type_lut.valueFor(type));
+#else
+        android::SensorManager::getInstance().
+            getDefaultSensor(hybris::forward_sensor_type_lut.valueFor(type));
+#endif
 
     if (sensor == NULL)
         return Sensor::Ptr();
