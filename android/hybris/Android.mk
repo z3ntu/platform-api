@@ -4,6 +4,13 @@ ANDROID_VERSION_MAJOR := $(word 1, $(subst ., , $(PLATFORM_VERSION)))
 ANDROID_VERSION_MINOR := $(word 2, $(subst ., , $(PLATFORM_VERSION)))
 ANDROID_VERSION_PATCH := $(word 3, $(subst ., , $(PLATFORM_VERSION)))
 
+ifeq ($(ANDROID_VERSION_MINOR),)
+    ANDROID_VERSION_MINOR := 0
+endif
+ifeq ($(ANDROID_VERSION_PATCH),)
+    ANDROID_VERSION_PATCH := 0
+endif
+
 HAS_LIBINPUTSERVICE := $(shell test $(ANDROID_VERSION_MAJOR) -eq 4 -a $(ANDROID_VERSION_MINOR) -gt 2 && echo true)
 
 include $(CLEAR_VARS)
