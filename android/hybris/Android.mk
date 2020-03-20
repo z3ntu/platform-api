@@ -23,10 +23,17 @@ LOCAL_CFLAGS += \
 
 UPAPI_PATH := $(LOCAL_PATH)/../../
 
+ifneq ($(IS_ANDROID_8),true)
 LOCAL_CFLAGS += -std=gnu++0x
+endif
 
 ifeq ($(BOARD_HAS_GNSS_STATUS_CALLBACK),true)
 LOCAL_CFLAGS += -DBOARD_HAS_GNSS_STATUS_CALLBACK
+endif
+
+ifeq ($(IS_ANDROID_8),true)
+LOCAL_CFLAGS += \
+    -Wno-unused-parameter
 endif
 
 LOCAL_C_INCLUDES := \
@@ -66,7 +73,9 @@ include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
+ifneq ($(IS_ANDROID_8),true)
 LOCAL_CFLAGS += -std=gnu++0x
+endif
 
 LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/include \
@@ -89,7 +98,9 @@ include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
 
+ifneq ($(IS_ANDROID_8),true)
 LOCAL_CFLAGS += -std=gnu++0x
+endif
 
 LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/include \
@@ -112,7 +123,9 @@ include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
 
+ifneq ($(IS_ANDROID_8),true)
 LOCAL_CFLAGS += -std=gnu++0x
+endif
 
 LOCAL_C_INCLUDES := \
 	$(UPAPI_PATH)/include \
