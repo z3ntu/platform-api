@@ -113,6 +113,13 @@ static void gnss_sv_status(GnssSvStatus*)
 }
 #endif
 
+#if ANDROID_VERSION_MAJOR>=8
+static void set_system_info(const GnssSystemInfo*)
+{
+    // Empty on purpose.
+}
+#endif
+
 static void nmea(GpsUtcTime timestamp, const char* nmea, int length)
 {
     if (hybris_gps_instance && hybris_gps_instance->nmea_cb)
@@ -173,8 +180,10 @@ GpsCallbacks gps =
     cb::location,
     cb::status,
     cb::sv_status,
+#if ANDROID_VERSION_MAJOR<8
 #ifdef BOARD_HAS_GNSS_STATUS_CALLBACK
     cb::gnss_sv_status,
+#endif
 #endif
     cb::nmea,
     cb::set_capabilities,
@@ -182,6 +191,10 @@ GpsCallbacks gps =
     cb::release_wakelock,
     cb::create_thread,
     cb::request_utc_time,
+#if ANDROID_VERSION_MAJOR>=8
+    cb::set_system_info,
+    cb::gnss_sv_status,
+#endif
 };
 
 static void xtra_download_request()

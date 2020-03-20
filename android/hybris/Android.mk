@@ -23,6 +23,10 @@ LOCAL_CFLAGS += \
 
 UPAPI_PATH := $(LOCAL_PATH)/../../
 
+ifeq ($(IS_ANDROID_8),true)
+BOARD_HAS_GNSS_STATUS_CALLBACK := true
+endif
+
 ifneq ($(IS_ANDROID_8),true)
 LOCAL_CFLAGS += -std=gnu++0x
 endif
