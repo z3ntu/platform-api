@@ -25,8 +25,14 @@
 
 #include <android/sensor.h>
 
+#if ANDROID_VERSION_MAJOR>=8
+#include <sensor/Sensor.h>
+#include <sensor/SensorManager.h>
+#else
 #include <gui/Sensor.h>
 #include <gui/SensorManager.h>
+#endif
+
 #include <utils/KeyedVector.h>
 #include <utils/List.h>
 

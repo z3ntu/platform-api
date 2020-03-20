@@ -12,6 +12,7 @@ ifeq ($(ANDROID_VERSION_PATCH),)
 endif
 
 HAS_LIBINPUTSERVICE := $(shell test $(ANDROID_VERSION_MAJOR) -eq 4 -a $(ANDROID_VERSION_MINOR) -gt 2 && echo true)
+IS_ANDROID_8 := $(shell test $(ANDROID_VERSION_MAJOR) -ge 8 && echo true)
 
 include $(CLEAR_VARS)
 
@@ -55,6 +56,11 @@ LOCAL_SHARED_LIBRARIES := \
 	libhardware \
 	libhardware_legacy \
 	libdl
+
+ifeq ($(IS_ANDROID_8),true)
+LOCAL_SHARED_LIBRARIES += \
+    libsensor
+endif
 
 include $(BUILD_SHARED_LIBRARY)
 
