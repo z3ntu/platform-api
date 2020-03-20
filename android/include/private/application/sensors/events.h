@@ -17,7 +17,7 @@
  */
 
 #ifndef UBUNTU_APPLICATION_SENSORS_EVENTS_H_
-#define UBUNTU_APPLICATION_SENSORS_EVENTS_H
+#define UBUNTU_APPLICATION_SENSORS_EVENTS_H_
 
 #include <private/platform/shared_ptr.h>
 #include <utils/Log.h>
