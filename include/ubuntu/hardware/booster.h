@@ -36,7 +36,7 @@ extern "C" {
     /** @brief Enumerates all known performance boosting scenarios. */
     typedef UbuntuHardwareBoosterScenario UHardwareBoosterScenario;
 
-    /** @cond */ typedef struct UbuntuHardwareBooster; /** @endcond */
+    /** @cond */ struct UbuntuHardwareBooster; /** @endcond */
     /** @brief UbuntuHardwareBooster is an opaque type providing access to the performance booster capabilities of the HW and drivers. */
     typedef UbuntuHardwareBooster UHardwareBooster;
 
