@@ -46,7 +46,6 @@ LOCAL_C_INCLUDES := \
 
 LOCAL_SRC_FILES := \
 	ubuntu_application_sensors_for_hybris.cpp \
-	ubuntu_hardware_booster_for_hybris.cpp \
 	../default/default_ubuntu_application_sensor.cpp
 
 ifeq ($(IS_ANDROID_8),true)
@@ -60,6 +59,14 @@ endif
 else
 LOCAL_SRC_FILES += \
     ubuntu_application_gps_for_hybris.cpp
+endif
+
+ifeq ($(IS_ANDROID_8),true)
+LOCAL_SRC_FILES += \
+    ubuntu_hardware_booster_hidl_for_hybris.cpp
+else
+LOCAL_SRC_FILES += \
+    ubuntu_hardware_booster_for_hybris.cpp
 endif
 
 LOCAL_MODULE := libubuntu_application_api
@@ -85,7 +92,11 @@ LOCAL_SHARED_LIBRARIES += \
     libhidltransport \
     libsensor \
     android.hardware.gnss@1.0 \
-    android.hardware.gnss@1.1
+    android.hardware.gnss@1.1 \
+    android.hardware.power@1.0 \
+    android.hardware.power@1.1 \
+    android.hardware.power@1.2 \
+    android.hardware.power@1.3
 endif
 
 include $(BUILD_SHARED_LIBRARY)
